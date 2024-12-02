@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* 字体族 假设你有一个自定义的字体文件 myfont.woff2 和 myfont.woff */
+      @font-face {
+        font-family: "MyCustomFont"; /* 定义字体族的名称 */
+        src: url("myfont.woff2") format("woff2"),
+          url("myfont.woff") format("woff"); /* 指定字体文件及其格式 */
+        font-weight: normal; /* 指定字体的粗细 */
+        font-style: normal; /* 指定字体的样式，如斜体或正常 */
+      }
+
+      #font_family {
+        display: flex;
+        width: 600px;
+        height: 200px;
+        align-items: center;
+        justify-content: center;
+        background-color: black;
+      }
+
+      #font_family p {
+        font-family: "MyCustomFont", Arial, sans-serif;
+        color: rgb(244, 247, 246);
+        font-size: 20px;
+        font-weight: bold;
+        font-style: italic;
+        line-height: 1.5;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      /* 背景图 */
+      #background {
+        height: 200px;
+        width: 600px;
+        background-image: url(./img/banner1.webp);
+        background-position: center center;
+        background-size: contain;
+      }
+
+      #xuebitu {
+        height: 80px;
+        width: 80px;
+        background-image: url(./img/雪碧图.png);
+        background-repeat: no-repeat;
+        background-position: 0px 0px;
+
+        margin-top: 20px;
+      }
+
+      /* 渐变 */
+      #gradient {
+        height: 100px;
+        width: 100px;
+        background-image: linear-gradient(to right, red 50px, yellow);
+      }
+
+      /* 表格的样式 */
+      table {
+        width: 400px;
+        height: auto;
+        table-layout: fixed; /* 固定布局，单元格宽度由表格宽度和平分来决定 */
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse; /* 合并边框*/
+      }
+
+      td {
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      th {
+        background-color: #b7b6b6;
+      }
+
+      tr:nth-child(even) {
+        background-color: #e9e8e8;
+      }
+
+      /* 表单布局 */
+      form {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      /* 过渡 */
+      button {
+        height: 40px;
+        width: 200px;
+        background-color: red;
+        transition: background-color 1s ease;
+      }
+
+      button:hover {
+        background-color: yellow;
+      }
+      
+       /* 动画 */
+       @keyframes boxmove{
+        from{
+            margin-left: 10px;
+        }
+        to{
+            margin-left: 600px;
+        }
+       }
+
+       #box{
+        height: 50px;
+        width: 50px;
+        background-color: antiquewhite;
+        animation: boxmove 5s ease infinite alternate-reverse;
+       }
+
+       /* 缩放 */
+
+       #transform_box{
+        height: 50px;
+        width: 50px;
+        background-color: aquamarine;
+        position: relative;
+        transform: translate(50px, 25px) rotate(45deg) scale(1.5); 
+       }
+    </style>
+  </head>
+  <body>
+    <!-- 主要介绍CSS的重要的属性
+    
+    1.字体族和字体相关属性
+    @font-face 是一个强大的 CSS 规则，用于定义自定义字体，使开发者能够在网页上使用特定的字体，即使用户的设备中没有安装这些字体。
+    需要注意：
+        - 加载速度
+        - 版权
+        - 字体格式
+
+    字体相关属性：
+        - color 字体颜色
+        - font-size 字体的大小
+        - font-weight 字体的粗细
+        - font-style 字体的样式 normal（正常）、italic（斜体）、oblique（倾斜）
+        - line-height 文本行高，即行与行之间的距离。可以使用数值、百分比、相对单位（如 em）等
+        - text-align 文本的水平对齐方式 justify两端对齐
+        - vertical-align 文本的垂直对齐
+
+    2.图标字体
+    在网页中，我们经常会使用图标，可以用图片，但是图片本身比较大，而且不灵活，所以在使用图标时，我们可以将图标设置为字体，然后通过font-face的来对字体进行引入，
+    这样我们就可以通过使用字体的形式来使用图标。
+    有许多流行的图标字体库，如 Font Awesome、Material Icons、Ionicons 等。这些库提供了丰富的图标选择。
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    然后通过
+    <i class=""></i>
+    来使用
+
+    3.背景相关属性
+        background-color：背景颜色
+        background-image：背景图片
+        background-repeat: 定义背景图像的重复方式
+            - repeat 默认在水平和垂直方向上重复
+            - repeat-x 默认在水平方向上重复
+            - repeat-y 默认在垂直方向上重复
+            - no-repeat 不重复
+        background-position：设置背景图片的位置
+            - 可以是关键字（如 top、right、bottom、left、center）或具体的百分比、长度值。
+        background-size：设置背景图像的尺寸
+            - auto 默认，保持原来大小
+            - cover 缩放背景图像完全覆盖背景区域，可能会导致图像被裁剪。
+            - contain 缩放背景图像适应背景区域，但保持图像的完整性
+        background-attachment：定义背景图像是否随着页面的滚动而滚动
+            - scroll：默认值，背景图像随着页面滚动。
+            - fixed：背景图像固定，不随页面滚动。
+            - local：背景图像相对于元素内容滚动。
+
+    4.雪碧图
+    雪碧图（也称为CSS精灵图，英文为CSS Sprite）是一种将多个小图标或图像合并到一个单一的大图像文件中的技术。
+    这种技术在Web开发中被广泛使用，以减少HTTP请求的数量，从而提高网页加载性能。
+    通过设置background-position来实现的
+
+    5.渐变
+    通过颜色渐变可以设置复杂的颜色，实现一种颜色向另一种颜色转变
+    ！！渐变是图片，通过background-image或background实现
+        线性渐变（linear-gradient）:
+            background-image:linear-gradient(red, yellow) 红色到黄色渐变
+            可以在开始时指定方向：
+                - to left
+                - to right
+                - to bottom
+                - to top
+                - deg
+                - turn 圈
+            默认情况下是均匀分布各个颜色，但是可以指定颜色的宽度，如20px
+        
+        径向渐变（radial-gradient）：
+            可以制作放射性效果
+            radial-gradient(shape size at position, color-stop1, color-stop2, ...);
+                - shape：定义渐变的形状，可以是 circle（圆形）或 ellipse（椭圆形）。
+                - size：定义渐变的大小，如 closest-side、farthest-corner 等。
+                - position：定义渐变的起始位置，默认是 center（居中）。
+    
+    6.表格的样式
+    如示例所示，可以设置单元格和表格整体的样式
+    
+    7.表单的布局
+    表单通过form实现，用于用户提交数据到服务器
+
+    8.过渡(transtion)
+    通过过渡，我们可以指定元素属性发生变化时的切换方式，用以提升用户体验
+    基本语法：transition: property duration timing-function delay;
+        - property：指定要应用过渡效果的CSS属性名称。可以是单一属性（如 width），也可以是 all 表示所有可改变的属性都应用过渡效果。
+        - duration：过渡效果完成所需的时间，单位通常是秒（s）或毫秒（ms）。
+        - timing-function：过渡效果的速度曲线，常见的有 linear, ease, ease-in, ease-out, ease-in-out
+        - delay：过渡开始前的延迟时间，单位同样是秒（s）或毫秒（ms）
+        - 当需要设置多个属性可以通过“,”来实现并集
+    
+    也可以每个属性单独设置，如transition-property
+
+    9.动画
+    动画和过渡类似，都可以实现一些动态效果，但是过渡在属性变化时才可以触发，而动画可以自动触发
+    设置动画必须设置一个关键帧 
+    @keyframes animation-name{
+        from{
+         动画开始时
+        }
+        to{
+        动画结束时
+        }
+    }
+
+    @keyframes animation-name {
+        0% { /* 动画开始时的样式 */ }
+        50% { /* 动画中间的样式 */ }
+        100% { /* 动画结束时的样式 */ }
+    }
+    
+    属性介绍：
+        - animation-name: 动画名称
+        - animation-duration: 动画持续时间
+        - animation-timing-function: 动画的速度曲线
+        - animation-delay: 动画的延迟时间
+        - animation-iteration-count: 动画循环次数，infinite 表示无限循环
+        - animation-direction: 动画的方向，可以设置为 normal, reverse, alternate, alternate-reverse
+    
+    10.变形平移
+    平移是一种几何变换，它可以让元素在二维或三维空间内移动而不会改变其形状或尺寸，也不会影响布局
+    使用 transform 属性中的 translate() 函数来实现
+    2D变换：
+        transform: translate(x, y);
+    3D变化：
+        transform: translate3d(x, y, z);
+        transform: translateX(x);
+        transform: translateY(y);
+        transform: translateZ(z);
+
+    11.旋转
+    旋转变换可以改变元素的角度位置。同样通过transform属性来实现
+    2D旋转：
+        rotate(angle)
+        这里的angle单位是度（deg），弧度（rad），梯度（grad）或者圈（turn）
+
+    3D旋转：
+        transform: rotateX(angle);
+        transform: rotateY(angle);
+        transform: rotateZ(angle);
+        transform: rotate3d(x, y, z, angle);
+    
+    12.缩放
+    同样通过transform属性来实现
+    2D缩放：
+        transform: scale(sx, sy)
+    3D缩放:
+        transform: scale3d(sx, sy, sz)
+    
+    -->
+
+    <div id="font_family">
+      <p>字体和字体族</p>
+    </div>
+
+    <!-- 使用 Font Awesome 的 home 图标 -->
+    <i class="fas fa-home"></i>
+
+    <div id="background"></div>
+
+    <div id="xuebitu"></div>
+
+    <div id="gradient"></div>
+
+    <!-- 表格 -->
+    <table>
+      <thead>
+        <tr>
+          <th>Header 1</th>
+          <th>Header 2</th>
+          <th>Header 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Data 1</td>
+          <td>Data 2</td>
+          <td>Data 3</td>
+        </tr>
+        <tr>
+          <td>Data 4</td>
+          <td>Data 5</td>
+          <td>Data 6</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 表单 -->
+    <form>
+      <label for="name">Name:</label>
+      <!-- 文本框需要为其指定name属性 -->
+      <input type="text" id="name" name="name" />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" />
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message"></textarea>
+
+      <input type="submit" value="Submit" />
+
+      <button></button>
+    </form>
+
+    <div id="box"></div>
+
+    <div id="transform_box"></div>
+  </body>
+</html>
+       

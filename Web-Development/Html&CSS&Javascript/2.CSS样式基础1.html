@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2.css样式基础</title>
+    <style>
+
+      
+      /* id选择器 */
+      #id_selection {
+        background-color: antiquewhite;
+        height: 30px;
+        width: 200px;
+      }
+
+      /* 类选择器 */
+      .class_selection {
+        background-color: aqua;
+        height: 40px;
+        width: 200px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      /* 交集选择器 */
+      .class_selection1,
+      .class_selection2 {
+        background-color: rgb(9, 255, 0);
+        height: 40px;
+        width: 200px;
+        margin-top: 2px;
+      }
+
+      /* 并集选择器 */
+      .class_selection3.class_selection4 {
+        background-color: rgb(225, 255, 0);
+        height: 40px;
+        width: 200px;
+        margin-top: 2px;
+      }
+
+      /* 后代选择器 */
+      #descendant_selector p {
+        color: blue;
+      }
+
+      /* 子选择器 */
+      #child_selector > li {
+        color: #821ba8;
+      }
+
+      /* 相邻兄弟选择器 */
+      #adjacent_sibling_selector + li {
+        color: #25a993;
+      }
+
+      /* 一般兄弟选择器 */
+      #general_sibling_selector ~ li {
+        color: rgb(158, 206, 25);
+      }
+
+      /* :hover */
+      button:hover {
+        background-color: red;
+      }
+
+      /* :focus */
+      input:focus {
+        background-color: aquamarine;
+      }
+
+      /* :nth-child */
+      #nth-child > li:nth-child(2) {
+        color: #821ba8;
+      }
+
+      /* 超链接的伪类选择器 */
+      a:link {
+        color: blue;
+      }
+      a:visited {
+        color: purple;
+      }
+
+      a:active {
+        color: rgb(51, 153, 104);
+      }
+      a:hover {
+        color: red;
+      }
+
+      /* 伪元素 */
+      #pseudo_element::before {
+        content: "Note:";
+        color: red;
+        font-weight: bold;
+      }
+
+      #pseudo_element::first-letter {
+        font-size: 2em;
+        color: red;
+      }
+
+      #pseudo_element::selection {
+        background-color: yellow;
+        color: black;
+      }
+
+      /* 盒子模型 */
+      #box_model {
+        height: 80px;
+        width: 80px;
+        color: black;
+        font-size: large;
+        font-weight: bold;
+        text-align: justify;
+    
+        padding: 20px;
+
+        border: 10px solid #25a993;
+
+        margin: 20px;
+      }
+
+      /* 轮廓、阴影和圆角 */
+      #outline_box-shadow_radius {
+        width: 300px;
+        height: 150px;
+        background-color: lightgreen;
+        border: 2px solid darkgreen;
+        border-radius: 20px; /* 圆角 */
+        box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3); /* 阴影 */
+        outline: 3px dashed orange; /* 轮廓 */
+        outline-offset: 5px; /* 轮廓偏移 */
+
+        
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+    1.css样式分为内联样式和外联样式表，外联样式表也就是通过link链接引入样式
+    2.常见的选择器：
+        id 选择器 #
+        class 选择器 .
+        通配符选择器 *
+        元素选择器 div button input 等等
+    3.复合选择器：
+        并集选择器 ,
+        交集选择器 .
+        混合使用 
+    4.关系选择器：
+        后代选择器 A B 选择元素 A 内所有的元素 B，无论 B 是 A 的直接子元素还是更深层的后代。 
+        子选择器 A>B 选择作为元素 A 的直接子元素的所有 B 元素。
+        相邻兄弟选择器 A+B 选择紧接在元素 A 之后的 B 元素，且 B 必须是 A 的兄弟元素（即具有相同的父元素）
+        一般兄弟选择器 A~B 选择所有位于元素 A 之后的 B 元素，且 B 必须是 A 的兄弟元素（即具有相同的父元素）
+    5.属性选择器
+    6.伪类选择器和超链接的伪类选择器
+     CSS 中用于选择特定状态下的元素，或选择元素的某些部分，而这些状态或部分不能通过常规的 CSS 选择器直接访问
+     伪类通常用于样式化元素在用户交互（如鼠标悬停、点击）或文档结构中特定状态下的表现
+        :hover 用于选择鼠标悬停在元素上时的状态
+        :focus 用于选择元素获得焦点（如输入框被点击激活）时的状态
+        :nth-child(n) 选择属于父元素的第 n 个子元素
+        :first-child 和 :last-child 分别用于选择父元素的第一个和最后一个子元素
+        :checked 用于选择被选中的 <input>（如复选框或单选按钮）
+
+        超链接的伪类选择器
+        :link 选择未被访问过的链接
+        :visited 选择已被访问过的链接
+        :active 选择用户正在点击时的链接  
+    7.伪元素
+    通常用于在不需要额外的 HTML 元素的情况下，给文档的某些部分添加样式，从而增强页面的视觉效果和用户体验    
+        ::before 用于在选定元素的内容之前插入内容
+        ::after 用于在选定元素的内容之后插入内容
+        ::first-line 用于在选定元素内容的第一行
+        ::first-letter 用于选定元素内容的第一个字母
+        ::selection 用于选择用户在网页中选中的文本部分，并应用样式
+    8.选择器的权重
+        内联样式>id选择器>类选择器>元素选择器>通配符>继承
+    9.像素和百分比
+        单位：px、百分比、n*em=n*font-size（根据字体的大小），rem（和em相同，只不过相对于根元素{html}的字体的大小计算）
+    10.盒子模型和替代盒子模型
+    盒子模型（Box Model）是网页设计中最基本的概念之一，它描述了浏览器如何计算和展示 HTML 元素的大小和位置。
+        content：内容区是实际显示文本、图像或其他元素内容的部分；尺寸可以通过 width 和 height 属性进行设置。
+        padding：内边距是内容区域与边框之间的空白区域
+            padding: 10px;  /* 为所有方向设置 10px 的内边距 */
+            padding-top: 5px;
+            padding-right: 10px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+        border：边框是围绕内容区域和内边距的可见线条。可以使用 border 属性设置边框的宽度、样式和颜色。
+        margin：外边距是元素与其他元素之间的空白区域。外边距不会有颜色，它主要用于控制元素之间的距离
+            margin: 20px;  /* 为所有方向设置 20px 的外边距 */
+            margin-top: 10px;
+            margin-right: 15px;
+            margin-bottom: 10px;
+            margin-left: 15px;  
+    替代盒子模型（border-box）：
+        在替代模型中，width 和 height 包含了内容区域、内边距和边框。这种模型通常更易于控制元素的总尺寸。
+        可以通过设置 box-sizing: border-box; 来启用替代模型】
+    11.轮廓和阴影和圆角
+    轮廓(outline)：不会影响盒子模型的布局
+      outline-width：轮廓的宽度，可以使用单位（如 px、em）或关键字（如 thin、medium、thick）。
+      outline-style：轮廓的样式，如 solid（实线）、dashed（虚线）、dotted（点线）等。
+      outline-color：轮廓的颜色，可以使用颜色名称、RGB、HEX、HSL等。
+    阴影（box-shadow）：
+      x-offset：阴影在水平方向上的移动距离（正值向右，负值向左）。
+      y-offset：阴影在垂直方向上的移动距离（正值向下，负值向上）。
+      blur-radius：定义阴影的模糊范围，值越大，阴影越模糊。
+      spread-radius：定义阴影的大小，正值扩大阴影，负值缩小阴影。
+      color：指定阴影的颜色。
+    圆角（border-radius）：
+      单一值：所有四个角使用相同的半径。
+      两个值：第一个值应用于左上角和右下角，第二个值应用于右上角和左下角。
+      四个值：分别应用于左上角、右上角、右下角、左下角。
+      使用斜线（/）：允许分别设置水平和垂直半径，创建椭圆形角。
+    
+    12.盒子大小
+
+
+
+        
+
+    -->
+    <div id="id_selection">这是一个id选择器div</div>
+    <div class="class_selection">这是一个类选择器测试div</div>
+    <div class="class_selection1">这是一个并集选择器测试</div>
+    <div class="class_selection2">这是一个并集选择器测试</div>
+
+    <div class="class_selection3 class_selection4">
+      这是一个交集选择器测试div
+    </div>
+
+    <div id="descendant_selector">
+      <div>
+        <p>这是关系选择器中的后代选择器</p>
+        <p>这是关系选择器中的后代选择器</p>
+        <p>这是关系选择器中的后代选择器</p>
+      </div>
+    </div>
+
+    <ul id="child_selector">
+      <li>这是关系选择器中的子选择器</li>
+      <li>这是关系选择器中的子选择器</li>
+      <li>这是关系选择器中的子选择器</li>
+    </ul>
+
+    <ul>
+      <li id="adjacent_sibling_selector">这是关系选择器中的相邻兄弟选择器</li>
+      <li>这是关系选择器中的相邻兄弟选择器</li>
+      <li>这是关系选择器中的相邻兄弟选择器</li>
+    </ul>
+
+    <ul>
+      <li id="general_sibling_selector">这是关系选择器中的一般兄弟选择器</li>
+      <li>这是关系选择器中的一般兄弟选择器</li>
+      <li>这是关系选择器中的一般兄弟选择器</li>
+    </ul>
+
+    <button>这是伪类选择器中的悬停</button>
+
+    <input type="text" />
+
+    <ul id="nth-child">
+      <li>这是nth-child选择器</li>
+      <li>这是nth-child选择器</li>
+      <li>这是nth-child选择器</li>
+    </ul>
+
+    <a href="https://www.baidu.com" target="_blank">测试下超链接的伪类选择器</a>
+
+    <p id="pseudo_element">这是我用来测试伪元素的一段文字，你知道吗</p>
+
+    <div id="box_model">
+      <p>盒子模型</p>
+    </div>
+
+    <div id="outline_box-shadow_radius">带有边框、阴影和圆角的盒子</div>
+  </body>
+</html>

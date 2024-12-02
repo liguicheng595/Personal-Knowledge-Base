@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!--
+        1.函数
+            1.1 函数的定义
+                - 函数声明
+                    通过 function 关键词定义的
+                    function functionname(parameters){
+                        要执行的代码
+                    }
+
+                - 函数表达式
+                    JavaScript 函数也可以使用表达式来定义。
+                    函数表达式可以在变量中存储：
+                    var x = function(a,b){a*b}
+                    var z = x(4,3)
+                    实际上是匿名函数
+
+                - Function() 构造器 
+                    通过名为 Function() 的内建 JavaScript 函数构造器来定义
+                    var myFunction = new Function("a", "b", "a*b")
+                    var x = myFunction(4, 3);
+            
+                - Hoisting（变量提升）
+                    JavaScript 中的一个独特机制,变量和函数的声明会被“提升”到它们所在作用域的顶部。
+                    这意味着，无论你在哪里声明变量或函数，JavaScript 引擎在实际执行代码前，会先将所有的声明放在作用域的最顶部，
+                    但不包括赋值
+                        myFunction(5);
+                        function myFunction(){
+                        }
+
+                - 自调用函数
+                    函数可以自调用
+                    函数表达式可以作为“自调用”。
+                    自调用表达式是自动被调用（开始）的，在不进行调用的情况下。
+                    无法对函数声明进行自调用
+                    需要在函数周围添加括号，以指示它是一个函数表达式
+                    示例：   
+                        (function(){
+                            var a="你好"
+                        })();
+            
+                - 函数是对象
+                    虽然说利用tupeof来查看函数，返回的类型是function，但是最好把函数看做是对象，因为它有属性和方法
+                    属性示例：arguments.length 会返回函数被调用时收到的参数数目
+                        function myFunction(a,b){
+                            return arguments.lenth;
+                        }
+                    方法示例：toString() 方法以字符串返回函数
+                        function myFunction(a,b){
+                        return a * b;;
+                        }
+                        var z = funtion(3,4).toString();
+            
+                - 箭头函数
+                    箭头函数允许使用简短的语法来编写函数表达式
+                    示例：
+                        //ES5
+                        var x = function myFunction(a,b){
+                            return a * b;;
+                        }
+                        //ES6
+                        var x = (a,b) => a * b
+                    箭头函数没有自己的 this。它们不适合定义对象方法。
+                    箭头函数未被提升。它们必须在使用前进行定义。
+                    使用 const 比使用 var 更安全，因为函数表达式始终是常量值
+            
+            1.2 函数参数
+                JavaScript 函数不会对参数值进行任何检查。
+                参数：
+                    函数参数（parameter）指的是在函数定义中列出的名称。
+                    函数参数（argument）指的是传递到函数或由函数接收到的真实值
+
+                参数默认：
+                    如果调用参数时省略了参数（少于被声明的数量），则丢失的值被设置为：undefined
+                    function myFunction(x, y) { }
+                    myFunction(1)，那么y就是undefined
+
+                arguments 对象：
+                    - 如果函数调用的参数过多（超过声明），那么可以使用函数对象
+        
+                参数传递:
+                    - 基本数据类型（原始类型）：
+                    avaScript 中的基本数据类型包括 number、string、boolean、undefined、null 和 symbol。
+                    当这些类型作为函数参数传递时，传递的是这些值的拷贝，并不知道具体的内存位置，所以，
+                    函数内部对参数修改不会影响外部的变量
+                    
+                    - 引用数据类型的“值传递”
+                    对于引用类型（如对象和数组），JavaScript 函数接收的是对象的引用副本（即指向对象的内存地址）。
+                    虽然函数不能直接改变引用本身，但它可以修改对象的内容，因为函数操作的仍是同一个对象。
+                    但是直接赋值不会改变对象的属性，因为赋值相当于更改了引用
+             
+            1.3 函数调用
+                JavaScript 函数内部的代码会在“某物”调用它时执行
+                - this关键字：
+                    在 JavaScript 中，被称为 this 的事物，指的是“拥有”当前代码的对象
+                    this 的值，在函数中使用时，是“拥有”该函数的对象
+                    全局对象
+                        在 web 浏览器中，全局对象就是浏览器对象，window 对象
+                        在 JavaScript 中，当一个函数在全局作用域中定义并调用时，如果没有特定的对象调用它，那么 this 将指向全局对象
+                        function showThis() {
+                            console.log(this); // 在浏览器中，这里会输出 window 对象
+                        }
+                    showThis(); // 全局调用，this 指向 window 
+                - 作为方法来调用函数    
+                    JavaScript 中，您可以把函数定义为对象方法，这时对象的方法是指拥有的对象
+                        var myObject = {
+                            firstName:"Bill",
+                            lastName: "Gates",
+                            fullName: function () {
+                            return this.firstName + " " + this.lastName;
+                            }
+                        }
+                        myObject.fullName();         // 将返回 "Bill Gates"  
+            
+                - 函数构造器来调用函数
+                如果函数调用的前面是 new 关键字，那么这是一个构造函数调用。
+                它看起来像你创建一个新的函数，但由于 JavaScript 函数是对象，你实际上创建一个新对象
+                // 这是函数构造器：
+                function myFunction(arg1, arg2) {
+                this.firstName = arg1;
+                this.lastName  = arg2;
+                }
+
+                // 创建了一个新对象：
+                var x = new myFunction("Bill", "Gates");
+                x.firstName;                             // 会返回 "Bill"
+       
+            1.4 call方法和apply方法
+                -call
+                call 方法用于调用一个函数，并显式地指定它的 this 值以及传递给函数的参数
+                function.call(thisArg, arg1, arg2, ...);
+                thisArg：调用函数时用作 this 的值
+                arg1, arg2, ...：调用函数时传递的参数列表
+            
+                -apply
+                    apply 方法与 call 方法类似，也用于调用一个函数并显式地指定 this 值，但传递参数的方式不同。
+                    apply 方法接受的是一个参数数组
+        
+            1.5 函数的绑定（bind方法）
+                bind 方法与 call 和 apply 类似，它也可以用来显式地设置函数的 this 值。但与 call 和 apply 不同的是，
+                bind 不会立即调用函数，而是返回一个新的函数，并且绑定了指定的 this 值和预设的参数
+                function.bind(thisArg, arg1, arg2, ...)
+                thisArg：调用新函数时的 this 值。
+                arg1, arg2, ...：调用新函数时预设的参数
+            
+                - 应用场景：
+                    -创建带有预设参数的新函数。
+                    - 在回调函数或事件处理中绑定 this。
+                    - 借用其他对象的方法
+                -回调函数:
+                回调函数（Callback Function）是指作为参数传递给另一个函数，并在适当的时机（通常是异步操作完成时）由后者调用的函数。
+                在 JavaScript 中，回调函数是处理异步操作（如事件处理、网络请求、定时器等）和控制代码执行顺序的一种重要机制。
+        
+            1.6 闭包
+                在函数（外部函数）中创建函数（内部函数），然后返回函数，返回函数在调用时候能够利用原外部函数中的向量 
+        
+        2.类
+            2.1 类简介
+                使用关键字class创建类
+                必须constructor()的构造方法，构造方法在类创建时自动执行
+                    class ClassName(){
+                        constructor(){......}
+                        method1(){......}
+                        method1(){......}
+
+                    }
+                -类的使用，使用new关键字
+                    let mycar = new Car(brand,price)
+
+            2.2 JavaScript 类继承
+                说到类继承，可以看下廖雪峰官网上有关的介绍。
+                - 对象创建
+                    JavaScript创建一个对象都会设置一个原型，这就会形成一个原型链。当查找一个对象属性时候，
+                    会先在这个原型寻找，如果没有就去其原型对象寻找，如果还没有就去Object原型对象，在没有返回undefined。
+                    以构造函数为例：
+                        var mycar = new Car("audi")
+                        使用new关键字创建一个对象，这个新对象的原型对象被设置为Car的 prototype 属性
+                        这个原型对象有个constructor函数指向Car函数
+                - 原型继承
+                    继承需要在原型链再添加一个节点，构造函数的继承会很麻烦，所以不在解释，这因此也就造就了类的继承
+                - 类的继承
+                    需要使用extends关键字
+                    在类的constructor方法里需要通过super函数调用父类的构造函数
+            
+            2.3 static方法
+                类中的函数不需要添加function关键字
+                static 关键字添加在前边表明这是一个静态方法，只能通过类调用，不能通过类产生的对象调用。
+                
+
+     -->
+    <h1>JavaScirt中的函数</h1>
+
+    <button type="button" onclick="counterFunction()">计时器</button>
+    <p id="counter"></p>
+
+    <script>
+      // function
+      function myFunction(a, b) {
+        return a * b;
+      }
+
+      //  arguments 对象
+      var x = findMax(1, 2, 3, 4, 5, 6);
+      function findMax() {
+        var i;
+        var max = -Infinity;
+        for (i = 0; i < arguments.length; i++) {
+          if (arguments[i] > max) {
+            max = arguments[i];
+          }
+        }
+        return max;
+      }
+
+      // 参数传递
+      // 基本数据类型值传递
+      var stuName = "赵六";
+      function changeName(name) {
+        name = "王八";
+        console.log(name);
+      }
+      changeName(stuName);
+      console.log(stuName);
+
+      //引用对象类型的值传递
+      var stuNameObj = { name: "Alice" };
+      function changeNameObj(obj) {
+        obj.name = "John";
+        console.log(obj);
+      }
+      changeNameObj(stuNameObj);
+      console.log(stuNameObj);
+
+      // this关键字
+      // 全局对象
+      function findThis() {
+        console.log(this);
+        return this;
+      }
+      findThis();
+
+      // 函数作为对象方法调用，然后查看this
+      var myObject = {
+        firstName: " Bob",
+        lastName: "Niuma",
+        fullName: function () {
+          return this.firstName + " " + this.lastName;
+        },
+      };
+      console.log(myObject.fullName());
+
+      // 函数作为构造函数调用，
+      function myFunction(arg1, arg2) {
+        this.firstName = arg1;
+        this.lastName = arg2;
+      }
+      var x = new myFunction(" Bob", "Niuma");
+      console.log(x.firstName);
+
+      // call函数
+      var studentObj = {
+        firstName: "张",
+        lastName: "三",
+        printName: function () {
+          return this.firstName + " " + this.lastName;
+        },
+      };
+      var studentObj1 = {
+        firstName: "李",
+        lastName: "四",
+      };
+      console.log(studentObj.printName.call(studentObj1));
+
+      //闭包
+      function counter() {
+        var counter = 0;
+        function add() {
+          return (counter += 1);
+        }
+        return add;
+      }
+      var add = counter();
+      function counterFunction() {
+        document.getElementById("counter").innerHTML = add();
+      }
+
+      // 类的继承
+      // 从构造函数说起
+      function Student(name) {
+        this.name = name;
+        this.hello = function () {
+          alert("Hello, " + this.name + "!");
+        };
+      }
+      let xiaoming = new Student("小明");
+      xiaoming.name; // '小明'
+      xiaoming.hello(); // Hello, 小明!
+    </script>
+  </body>
+</html>

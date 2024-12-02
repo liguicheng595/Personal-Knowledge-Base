@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- JavaScirt基础
+     1.什么是JavaScirt
+        - 脚本语言：JavaScript 是一种解释型脚本语言，这意味着它不需要编译成机器码，而是直接由浏览器解释执行
+        - 浏览器端：JavaScript 主要运行在浏览器端（客户端），用于控制网页行为，比如表单验证、动态内容更新等。
+            不过，JavaScript 也可以在服务器端运行，比如使用 Node.js
+        - 事件驱动：JavaScript 通常用于处理用户在网页上的操作（点击、键入、滚动等），这些操作被称为“事件”。
+            JavaScript 可以根据这些事件执行相应的代码。
+    
+    2. JavaScript的使用
+        必须在<script> 标签中
+        可以通过引用<script src="myScript.js"></script>
+        可以在<head>和<body>中任何位置使用
+    
+    3.JavaScript基本语法
+        3.1变量声明：所有 JavaScript 变量必须以唯一的名称的标识。这些唯一的名称称为标识符
+            - var 最常用的声明变量方法
+                - 未赋值的值将是 undefined
+                - 重复声明 JavaScript 变量,如果再次声明某个JavaScript 变量，将不会丢它的值。
+            - let 块作用域（Block Scope）变量 
+                - 使用 JavaScript 的情况下，全局作用域是 JavaScript 环境。在 HTML 中，全局作用域是 window 对象。
+                    通过 var 关键词定义的全局变量属于 window 对象：
+                        var carName = "porsche";
+                        // 此处的代码可使用 window.carName
+                    通过 let 关键词定义的全局变量不属于 window 对象
+                - 重复声明问题：
+                    在相同的作用域，或在相同的块中，通过 let 重新声明一个 var 变量或let变量是不允许的
+            - const 通过 const 定义的变量与 let 变量类似，但不能重新赋值
+                - 必须在声明时候赋值，且赋值后不能修改
+                    const PI = 3.14
+                - const对象能够修改属性
+                    const student = {name:"张三", age=:18}
+                    student.age = 19 
+                - const数组能够修改元素
+                    const cars = ["Audi", "BMW", "porsche"];
+                    cars[0] = "Honda";
+        
+        3.2 运算符
+            算数运算符：
+                + - * / % ++ -- += -= ......
+            比较运算符：
+                == === != !== > < >= <= ?三元运算符
+            逻辑运算符：
+                && || ！
+            类型运算符：
+                typeof instanceof 
+            位运算符：
+                & | ~
+        
+        3.3 数据类型 
+            数值、字符串值、数组、对象等等 
+        
+        3.4 常见语句
+            条件语句：if else elseif switch                
+                if(age > 18){...
+                }else{...
+                }
+            循环语句：for do...while
+                for(let i=0; i<10; i++){
+                }
+    4.对象
+        4.1对象定义
+            在JavaScrit当中，对象为王，理解了对象就理解了JavaScrit。
+            除了原始值，几乎所有"所有事物"都是对象。
+            - 原始值（指的是没有属性或方法的值）
+            - 原始数据类型（拥有原始值的数据类型）
+                string（用 new 关键词定义可变为对象）
+                number（用 new 关键词定义可变为对象）
+                boolean（用 new 关键词定义可变为对象）
+                null
+                undefined
+        
+            - 对象有属性和方法
+            - 创建对象
+                - 使用对象字面量
+                    var person = {firstName:"Bill", lastName:"Gates", age:62, eyeColor:"blue"};
+                - 使用关键词 new
+                    var person = new Object();
+                    person.firstName = "Bill";
+                    person.lastName = "Gates";
+                    person.age = 50;
+                    person.eyeColor = "blue"; 
+            - 对象是易变的
+                对象是通过引用来寻址，而非值
+                比如 person是一个对象
+                var x = person
+                x不是person的副本，而是和person共用一个地址，对x的改变会使得person改变
+        
+        4.2 对象属性
+            - 属性访问：
+                - person.name
+                - person["name"]
+                - x = "name"; person[x]
+            - 属性遍历：
+                for (x in person){
+                    txt +=person[x]
+                }
+            - 属性添加：
+                person.nationality = "English";
+            - 属性删除 
+                delete person.age
+        
+        4.3 对象方法
+            - 定义
+                很简单，就是写一个函数在后面
+            - 内建方法
+                本来就有的，比如说toUpperCase() 把文字转为大写
+        
+        4.4 对象访问器
+            - get访问器 
+                访问属性值
+            - set设置器
+                设置属性值
+
+        4.5 对象构造器
+            - 构造函数
+                function Person(first, last, age, eye) {
+                    this.firstName = first;
+                    this.lastName = last;
+                    this.age = age;
+                    this.eyeColor = eye;
+                }
+                var niuma = new Person("niu", "ma", 18, "blue")
+                使用new关键词创建一个对象的过程：
+                    创建一个新的空对象，
+                        一个新的对象被创建。这个新对象的原型被设置为构造函数的prototype属性
+                    函数的 this 绑定到这个新对象
+                    执行构造函数的代码，对新对象进行初始化（例如，给它赋值属性和方法）
+                    返回新对象
+            - 内置的构造器
+                new String()
+        
+        4.6 对象原型
+            JavaScript创建的所有对象都从原型那里继承属性和方法。
+            日期对象继承自 Date.prototype。数组对象继承自 Array.prototype。Person 对象继承自 Person.prototype。
+            Object.prototype 位于原型继承链的顶端：
+            日期对象、数组对象和 Person 对象都继承自 Object.prototype。
+        
+        4.7 可迭代对象
+        可迭代对象（Iterables）是可以使用 for..of 进行迭代的对象
+            - 常见可迭代对象
+                数组 [1, 2, 3, 4, 5]
+                Map是一组键值对的结构，具有极快的查找速度 
+                    let m = new Map([["niuma", 18], ["maniu", 20]]);
+                    let m = new Map();
+                    m.set("niuma", 18);
+                    m.set("maniu", 20);
+                    m.get("niuma");
+                Set Set和Map类似，也是一组key的集合，但不存储value，且不能有重复值   
+                Map和set还有其他方法如delete()
+
+            - 迭代方法
+                for (const x of m){
+                }
+
+        4.8 对象引用
+            就是些针对对象的方法，如
+            // 以现有对象为原型创建对象
+            Object.create()
+            // 添加或更改对象属性
+            Object.defineProperty(object, property, descriptor)
+            // 添加或更改对象属性
+            Object.defineProperties(object, descriptors) 
+    5.JSON
+    JSON: JavaScript Object Notation（JavaScript对象标记法）
+    JSON 是一种存储和交换数据的语法。
+    JSON 是通过 JavaScript 对象标记法书写的文本。
+        5.1 简介
+            交换数据
+            当数据在浏览器与服务器之间进行交换时，这些数据只能是文本。
+            JSON 属于文本，并且我们能够把任何 JavaScript 对象转换为 JSON，然后将 JSON 发送到服务器。
+            我们也能把从服务器接收到的任何 JSON 转换为 JavaScript 对象。
+            以这样的方式，我们能够把数据作为 JavaScript 对象来处理，无需复杂的解析和转译。
+            
+            - 发送数据
+            var myObj = { name:"Bill Gates",  age:62, city:"Seattle" };
+            var myJSON = JSON.stringify(myObj);
+            window.location = "demo_json.php?x=" + myJSON;
+            
+            - 接受数据
+            var myJSON = '{ "name":"Bill Gates",  "age":62, "city":"Seattle" }';
+            var myObj = JSON.sparse(myJSON);
+        
+        5.2 语法
+            - 数据在名称/值对中 
+                名称必须加双引号,"name"
+                值必须是字符串、数字、对象(JSON对象)、数组、布尔类型
+            - 数据由逗号分隔
+            - 花括号容纳对象
+            - 方括号容纳数组
+
+        5.3 JSON VS XML
+        两者均可以从web服务器接受数据
+            相同点：
+                - 两者均是自描述的（人类可读）
+                - 两者均是分级的（值中有值）
+                - 两者均可以被被大量编程语言解析和使用
+                - JSON 和 XML 都能被 XMLHttpRequest 读取
+            不同点：
+                - JSON不使用标签
+                - JSON更短且更容易和快速处理
+                - JSON可以使用数组
+                - XML必须使用专门的XML解析器进行解析，但是JSON能够直接被JavaScript进行解析
+        
+        5.4 JSON.parse()
+        JSON 的常规用途是同 web 服务器进行数据传输。
+        在从 web 服务器接收数据时，数据永远是字符串。
+        通过 JSON.parse() 解析数据，这些数据会成为 JavaScript 对象。
+            - 对来自服务器JSON解析
+                通过使用 AJAX 请求从服务器请求 JSON
+            - 对数组也能够进行解析
+            - 例外
+                - JSON中不允许有时间，请转为字符串，然后使用new Date进行转换
+                - JSON中不允许有时间，请转为字符串，然后使用eval()进行转换
+        
+        5.5 JSON.stringify()
+        通过 JSON.stringify() 把 JavaScript 对象转换为字符串
+            - 例外
+                - 在 JSON 中，不允许日期对象。JSON.stringify() 函数将把任何日期转换为字符串
+                - 在 JSON 中，不允许函数作为对象值。JSON.stringify() 函数将从 JavaScript 对象删除任何函数，包括键和值
+
+
+    -->
+
+    <h1>JavaScript的变量</h1>
+    <p>如果没有赋值那就是undefined</p>
+    <p id="undefined"></p>
+    <p>let 块作用域（Block Scope）变量</p>
+    <hr />
+
+    <script>
+      var name;
+      name = "张三";
+      var name, age, gender;
+      document.getElementById("undefined").innerHTML = gender; // name
+
+      {
+        let name = "王五";
+        console.log(name);
+      }
+      // 块外不能使用王五
+      console.log(name); // name这个地方是张三
+
+      var carName = "audi";
+      let let_carName = "audi";
+      window.carName;
+
+      // 您可以创建常量数组：
+      const cars = ["Audi", "BMW", "porsche"];
+      // 您可以更改元素：
+      cars[0] = "Honda";
+
+      var length = 7; // 数字
+      var lastName = "Gates"; // 字符串
+      var cars1 = ["Porsche", "Volvo", "BMW"]; // 数组
+      var x = { firstName: "Bill", lastName: "Gates" }; // 对象
+
+      // 对象
+      var person = { name: "Bob", age: 18, gender: "man" };
+      var x = person;
+      x.name = "John";
+      console.log(person);
+
+      var message = "Hello, JavaScript";
+      console.log(message.toUpperCase());
+
+      var person = {
+        name: "Bob",
+        age: 18,
+        gender: "man",
+        get lang() {
+          return this.name;
+        },
+      };
+      console.log(person.lang);
+
+      var person = {
+        name: "Bob",
+        age: 18,
+        gender: "man",
+        set lang(nm) {
+          this.buzhidao = nm;
+        },
+      };
+      person.lang = "Johnnnnnnn";
+      console.log(person.buzhidao);
+
+      let m = new Map([
+        ["niuma", 18],
+        ["maniu", 20],
+      ]);
+      for (const [key, value] of m) {
+        console.log(`Key: ${key}, Value: ${value}`);
+      }
+
+      // JSON
+      // 对象解析
+      var myObj = JSON.parse(
+        '{ "name":"Bill Gates", "age":62, "city":"Seattle"}'
+      );
+      console.log(myObj);
+
+      // Json函数转换
+      var text =
+        '{ "name":"Bill Gates", "age":"function () {return 62;}", "city":"Seattle"}';
+      var obj = JSON.parse(text);
+      var age = eval("(" + obj.age + ")");
+      console.log(age())
+    </script>
+  </body>
+</html>

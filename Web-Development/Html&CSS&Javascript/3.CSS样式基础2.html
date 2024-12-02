@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 父子元素顶部外边距的重叠 */
+      #parent {
+        margin-top: 50px;
+        height: 30px;
+        background-color: antiquewhite;
+      }
+
+      #child {
+        margin-top: 10px;
+        background-color: aqua;
+      }
+
+      /* 行内元素、disply、visibility */
+      #display_visibility {
+        display: block;
+        visibility: visible;
+      }
+
+      /* 浮动 */
+      #w3school_menu {
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+
+      #w3school_menu li {
+        display: block;
+        height: 48px;
+        width: 120px;
+        float: left;
+        background-color: beige;
+      }
+
+      #w3school_menu span {
+        float: left;
+        width: 200px;
+        height: 48px;
+        background-color: antiquewhite;
+      }
+
+      /* 高度塌陷问题 */
+      .clearfix::before,
+      .clearfix::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      /* 相对定位 */
+      #position_relative_test {
+        position: relative;
+        width: 300px;
+        height: 200px;
+        background-color: lightblue;
+        padding: 20px;
+        margin: 50px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      /* 绝对定位 */
+      #position_absolute_test {
+        position: absolute;
+        top: 400px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      /* 固定定位 */
+      #fixed-header {
+            position: fixed;
+            top: 600px;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        /* 粘性定位 */
+        .sticky-header {
+            position: sticky;
+            top: 800px; /* 当元素顶部距离浏览器窗口0px时，开始固定 */
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+  </head>
+  <body>
+    <!-- 这一部分主要学习布局
+    
+     1.元素的水平布局
+    标准文档流下，一个元素在其父元素内必须满足下列等式：
+        margin-left + border-left + padding-left + width + padding-right + border-right + margin-right = 父元素的内容区width
+
+        0 + 0 + 0 + 400 + 0 + 0 + 0 = 800
+        200 + 0 + 0 + 400 + 0 + 0 + 0 = 800
+
+        以上等式必须满足，如果不满足则称为过渡约束，则会自动调整适应等式：
+            调整情况
+                - 七个元素都未设置为auto，则自动调整margin-right来适应等式
+                - 七个元素还可以设置为auto，具体情况比较复杂，等需要时可以了解
+
+    2.垂直方向上外边距（margin）的重叠
+    当两个块级元素的垂直外边距相遇时，它们不会简单地叠加，而是会合并为一个外边距
+        兄弟元素的外边距重叠：
+            - 两个外边距都为正（负），取绝对值较大的那一个
+            - 一正一负取和，阴阳结合
+            - 兄弟元素外边距重叠有利于开发，一般不用去处理
+
+        父子元素的外边距重叠：
+            - 一个块级元素的顶部外边距与其第一个子元素的顶部外边距相遇，它们也会发生重叠，合并为一个外边距，值为两者中较大的那个。
+            - 父子元素外边距重叠会影响页面布局，必须进行处理
+    
+    3.行内元素、disply、visibility
+        行内元素：
+            行内元素是指那些不会独占一行的元素，它们只占据它们本身内容所需的宽度，并且与其他行内元素或文本在同一行内水平排列。
+            行内元素的典型例子包括<span>、<a>、<strong>、<em>、<img>
+            行内元素的盒子模型：
+                - 不能够设置长宽
+                - 可以设置padding，但是垂直方向不影响布局
+                - 可以设置border，但是垂直方向不影响布局
+                - 可以设置margin，但是垂直方向上不影响布局
+        行内块元素（inline-block）:
+            结合了行内元素和块级元素的特点。它们像行内元素一样不独占一行，但也可以设置宽度和高度。
+        
+        display:用来设置元素的显示类型
+            - inline 设置为行内元素
+            - inline-block 设置为行内块元素
+            - block 块元素
+            - table 显示为表格
+            - none 不显示，完全从文档流中移除，相当于元素不存在
+            - flex 使元素成为弹性容器，其子元素可以使用 Flexbox 布局来排列
+            - grid 使元素成为网格容器，其子元素可以使用 CSS Grid 布局进行二维布局
+        
+        visibility:决定了一个元素是否可见，但它不会影响元素在文档流中的位置或布局
+            - visible 可见
+            - hidden 隐藏
+    
+    4.文档流和浮动float
+    文档流指的是元素在网页中按默认规则排列的方式，也就是浏览器在没有任何特殊布局处理时，元素如何在页面上排列。
+    浮动（float） 是CSS中的一个布局属性，用来使元素脱离文档流，实现在父元素内向左或者右边排列
+        通过float属性：
+            - none 默认，不浮动
+            - left 向左浮动
+            - right 向右浮动
+        
+        浮动的特点：
+           - 浮动的元素完全脱离文档流，不占据文档流中的位置
+           - 浮动元素默认不会从父元素中移出
+           - 浮动元素默认不会超过前面的浮动元素
+           - 如果浮动元素前面的元素不设置浮动，则会在其下面一行
+       
+        清除浮动clear：
+           - left 清除左侧浮动元素对当前元素的影响
+           - right 清除右侧浮动元素对当前元素的影响
+           - both 清除两侧浮动元素对当前元素的影响
+    
+    
+    5.元素脱离文档流的特点
+    元素脱离文档流后，性质会发生变化，不再区分块元素和行内元素了
+        块元素：
+           - 不再独占一行
+           - 默认高度和宽度被内容撑开
+        行内元素：
+           - 性质变得和块元素一样了
+    
+    6.高度塌陷和BFC
+    在浮动布局中，父元素的高度默认被子元素撑开，当所有子元素都浮动时，父元素会认为它们不在文档流中，导致父元素的高度塌陷为0。
+    高度塌陷后，子元素会上移，导致页面混乱
+
+    块级格式化上下文（Block Formatting Context，BFC）是CSS中的一个概念，指的是一种独立的渲染区域，
+    区域内部的元素布局不会影响外部元素，反之亦然。
+        特点：
+           - 开启BFC的元素不会被浮动元素覆盖
+           - 开启BFC的子元素和父元素不会外边距重叠
+           - 开启BFC的元素可以包含浮动元素
+        
+        触发方式：
+           - 设置float属性(不推荐)
+           - 设置为行内块元素(不推荐)
+           - 设置overflow属性
+    
+    解决高度塌陷问题：
+        - after伪类解决塌陷问题
+            .box::after{
+                content:""
+                display:block
+                clear:both
+            }
+        - clearfix解决外边距重叠（包括塌陷问题也解决）
+            .clearfix::before,
+            .clearfix::after{
+                content:"";
+                display:table;
+                clear:both;
+            }
+
+    7.相对定位
+    相对定位通过设置positio属性为relative来实现,元素相对于其原始位置进行偏移。
+    即使你对元素应用了相对定位，它仍然保留在文档流中，占据原来的位置，只是视觉上偏移了。
+        特点：
+           - 开启相对定位后，不设置偏移量，元素位置不会发生变化
+           - 相对定位是参照元素在文档流中的位置进行定位的
+           - 相对定位会提升元素的层级
+           - 相对定位不会使元素脱离文档流
+           - 相对定位不会改变元素是行内元素还是块元素
+    
+        偏移量:
+           top 相对于原始位置向下移动
+           bottom 相对于原始位置向上移动
+           left 相对缘原始位置向右移动
+           right 相对于原始位置向左移动
+    
+    8.绝对定位（absolute）
+    绝对定位是指元素相对于最近的已定位祖先元素（即设置了position属性且值不为static的祖先元素）进行定位。
+    如果没有这样的祖先元素，元素将相对于初始包含块（通常是<html>元素或浏览器窗口）进行定位。
+        特点：
+           - 脱离文档流：绝对定位的元素脱离了文档流，因此不会影响其他元素的布局，其他元素也不会影响它
+           - 不占据空间：由于脱离了文档流，绝对定位的元素不再占据文档流中的空间
+           - 偏移量计算：可以使用top、right、bottom、left属性来指定元素相对于最近的已定位祖先元素的位置
+           - 叠放顺序：绝对定位的元素在页面上可以通过z-index属性控制叠放顺序
+    
+    9.固定定位（fixed）
+    指的是元素相对于浏览器窗口进行定位，而不受文档流和页面滚动的影响。无论页面如何滚动，固定定位的元素都
+    会保持在浏览器窗口的指定位置。
+
+    10.粘性定位（sticky）
+    粘性定位是一种混合定位模式，结合了相对定位和固定定位的特性。元素开始时是相对于其父容器进行相对定位的，
+    但当页面滚动到一定程度时，它会“粘住”并相对于浏览器窗口进行固定。
+
+    10.元素的层级
+    元素的层级决定元素的优先显示顺序，通过z-index实现
+    父元素无论层级多么高都不会影响子元素的显示
+
+
+
+        
+
+
+
+     -->
+    <div id="parent">
+      <div id="child">父子元素外边距重叠影响了页面布局</div>
+    </div>
+
+    <div id="display_visibility">设置display_visibility</div>
+
+    <div id="w3school_menu">
+      <ul>
+        <li>HTML/CSS</li>
+        <li>Browser Side</li>
+        <li>Sever Side</li>
+        <li>Programing</li>
+        <li>XML</li>
+        <li>Web Building</li>
+        <li>Reference</li>
+        <span>行内元素脱离文档流</span>
+      </ul>
+    </div>
+
+    <div id="position_relative_test">这是一个相对定位的测试</div>
+    <div id="position_absolute_test">这是一个绝对定位的测试</div>
+    <div id="fixed-header">固定定位</div>
+    <div id="sticky-header">粘性定位</div>
+  </body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #div_container {
+        background-color: aliceblue;
+        height: 30px;
+        width: 50%;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      #div_container div {
+        width: 20%;
+        margin: 2px 2px;
+        background-color: bisque;
+        text-align: center;
+        vertical-align: middle;
+        font-weight: bold;
+      }
+
+      #anicontainer {
+        position: relative;
+        height: 400px;
+        width: 400px;
+        background-color: antiquewhite;
+      }
+      #animation {
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="header"></h1>
+    <button type="button" onclick="openNewWindow()">打开新窗口</button>
+    <button type="button" onclick="historyBack()">后退历史</button>
+    <br /><br />
+    <button type="button" , onclick="alert('警告你')">我是一个警告框</button>
+    <br /><br />
+    <button type="button" , onclick="confirm('确认你')">我是一个确认框</button>
+    <br /><br />
+    <button type="button" , onclick="prompt('提示你', '默认文字')">
+      我是一个提示框
+    </button>
+    <br /><br />
+    <button
+      type="button"
+      ,
+      onclick="varSetTimeut = setTimeout(funSetTimeout, 5000)"
+    >
+      试一试timeout函数
+    </button>
+    <br /><br />
+    <button type="button" , onclick="clearTimeout(varSetTimeut) ">
+      试一试停止timeout函数
+    </button>
+    <br /><br />
+    <button type="button" , onclick="clearTimeout(varSetInterval) ">
+      试一试停止timeinterval函数
+    </button>
+    <p id="date"></p>
+    <hr />
+    <!-- DOM -->
+    <div id="div_container">
+      <div id="div1">div1</div>
+      <div id="div2">div2</div>
+      <div id="div3">div3</div>
+    </div>
+    <br /><br />
+    <button
+      type="button"
+      ,
+      onclick="document.getElementById('div1').style.backgroundColor = 'black'"
+    >
+      改变div1背景颜色
+    </button>
+    <br /><br />
+    <button type="button" , onclick="removeChildDiv3()">删除div3</button>
+    <br /><br />
+    <button type="button" , onclick="addChildDiv3()">添加div3</button>
+
+    <br /><br />
+
+    <h3>表单验证</h3>
+    <form name="myform" action="" onsubmit="validForm()" method="post">
+      Name: <input type="text" name="fname" />
+      <input type="submit" value="提交" />
+    </form>
+
+    <br /><br />
+    <h3>JavaScript动画</h3>
+    <button type="button" onclick="myMove()">点击我运行动画</button>
+    <div id="anicontainer">
+      <div id="animation"></div>
+    </div>
+
+    <br /><br />
+    <h3>DOM事件</h3>
+    <button type="button" onclick="displayDate()">点击我开始展示时间</button>
+    <p id="display_date"></p>
+
+    <br /><br />
+    <h3>DOM事件监听</h3>
+    <button type="button" id="button_refresh">点击更新文字</button>
+    <p id="refresh_text">原始文字</p>
+
+    <script>
+      /*
+        1.浏览器对象（BOM）
+        浏览器对象模型（Browser Object Model (BOM)）允许 JavaScript 与浏览器对话
+            1.1 window对象
+            window对象不但充当全局作用域，而且表示浏览器窗口
+            也就是说全局变量是它的属性，全局函数是它的方法。
+            甚至（HTML DOM 的）document 对象也是 window 对象属性
+      */
+      window.document.getElementById("header").innerHTML =
+        "document在window对象里面";
+
+      /*
+              - 窗口尺寸
+                  window.innerHeight - 浏览器窗口的内高度（以像素计）
+                  window.innerWidth - 浏览器窗口的内宽度（以像素计）
+                  内部宽高是指除去菜单栏、工具栏、边框等占位元素后，用于显示网页的净宽高
+              - window.open() - 打开新窗口
+              - window.close() - 关闭当前窗口
+              - window.moveTo() -移动当前窗口
+              - window.resizeTo() -重新调整当前窗口
+      */
+      function openNewWindow() {
+        window.open(
+          "https://www.baidu.com",
+          "_self",
+          "width=600,height=400,menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes"
+        );
+      }
+
+      /*    1.2 window.screen
+              screen 对象包含用户屏幕的信息
+                - screen.width 
+                - screen.height
+                - screen.availWidth 可用宽度
+                - screen.availHeight 可用长度
+                - screen.colorDepth
+                - screen.pixelDepth
+      */
+      console.log(
+        "屏幕高度为：" +
+          screen.height +
+          "\n屏幕可用高度为：" +
+          screen.availHeight
+      );
+
+      /*    1.3 window.location
+              location 对象可用于获取当前页面地址（URL）并把浏览器重定向到新页面
+                - window.location.href 返回当前页面的 href (URL)
+                - window.location.hostname 返回 web 主机的域名
+                - window.location.pathname 返回当前页面的路径或文件名
+                - window.location.protocol 返回使用的 web 协议（http: 或 https:）
+                - window.location.assign 加载新文档
+      */
+      console.log(location.href);
+      console.log(location.host);
+      console.log(location.pathname);
+      /*    1.4 window.history
+              history 对象包含浏览器历史
+              为了保护用户的隐私，JavaScript 访问此对象存在限制
+                - history.back() - 等同于在浏览器点击后退按钮
+                - history.forward() - 等同于在浏览器中点击前进按钮
+      */
+      function historyBack() {
+        history.back();
+      }
+
+      /*    1.5 window.navigator 
+              navigator对象包含有关表示浏览器的信息
+              为了保护用户的隐私，JavaScript 访问此对象存在限制
+                - navigator.cookieEnabled 浏览器 Cookie 
+                - navigator.appName 属性返回浏览器的应用程序名称
+                - navigator.product 属性返回浏览器引擎的产品名称
+                - navigator.language 属性返回浏览器语言
+                - navigator.onLine 属性返回 true，假如浏览器在线
+              警告！！！
+                来自 navigator 对象的信息通常是误导性的，不应该用于检测浏览器版本，因为：
+                不同浏览器能够使用相同名称
+                导航数据可被浏览器拥有者更改
+                某些浏览器会错误标识自身以绕过站点测试
+                浏览器无法报告发布晚于浏览器的新操作系统
+      */
+      console.log(navigator.cookieEnabled);
+      console.log(navigator.product);
+      console.log(navigator.onLine);
+     
+      /*    1.6 JavaScript 弹出框
+              JavaScript 有三种类型的弹出框：警告框、确认框和提示框
+                - 警告框 window.alert()
+                - 确认框 window.confirm()
+                - 提示框 window.prompt()
+
+            1.7 JavaScript Timing 事件
+              允许以指定的时间间隔执行代码，也称为定时事件
+                - setTimeout(function, milliseconds)
+                    在等待指定的毫秒数后执行函数。
+                - clearTimeout()
+                    停止执行 setTimeout() 中规定的函数
+                - setInterval(function, milliseconds)
+                    等同于 setTimeout()，但持续重复执行该函数
+        
+      */
+      function funSetTimeout() {
+        alert("Hello");
+      }
+
+      function funSetInterval() {
+        var d = new Date();
+        document.getElementById("date").innerHTML = d.toLocaleTimeString();
+      }
+      var varSetInterval = setInterval(funSetInterval, 1000);
+
+      /*    1.8 什么是 cookie？
+              Cookie 是在您的计算机上存储在小的文本文件中的数据。
+              web 服务器向浏览器发送网页后，连接被关闭，服务器会忘记用户的一切。
+              Cookie 是为了解决“如何记住用户信息”而发明的：
+                当用户访问网页时，他的名字可以存储在 cookie 中。
+                下次用户访问该页面时，cookie 会“记住”他的名字。
+              Cookie 保存在名称值对中，如：
+                username = Bill Gates
+              当浏览器从服务器请求一个网页时，将属于该页的 cookie 添加到该请求中。这样服务器就获得了必要的数据来“记住”用户的信息。
+              如果浏览器已关闭本地 cookie 支持，则以下实例均无法工作
+                -  JavaScript 可以用 document.cookie 属性创建、读取、删除 cookie。
+                    path 参数，您可以告诉浏览器 cookie 属于什么路径。默认情况下，cookie 属于当前页
+                    不必指定 cookie 值，expires 参数设置为过去的日期即可删除cookie，一些浏览器会让指定正确路径才可以删除
+                
+                - Cookie 字符串
+                    document.cookie 属性看起来像一个正常的文本字符串。但它不是。
+                    即使你向document.cookie 写一份完整的 cookie 字符串，当再次读取时，你只能看到它的名称-值对。
+                    如果设置了新 cookie，则旧的 cookie 不会被覆盖。新的 Cookie 会被添加到 document.cookie
+      */
+      // 创建cookie
+      document.cookie =
+        "username:liguicheng; expires=Sun, 31 Dec 2024 12:00:00 UTC; path=/";
+      // 改变cookie
+      document.cookie =
+        "username:Steve Jobs; expires=Sun, 31 Dec 2024 12:00:00 UTC; path=/";
+      // 删除cookie
+      document.cookie =
+        "username:; expires=Sun, 31 Dec 2022 12:00:00 UTC; path=/";
+      //JavaScript Cookie 实例
+      // 设置cookie，exdays是存在时间
+      function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+      // 查看cookie
+      function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == " ") {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+      // 检查设置cookie
+      function checkCookie() {
+        var user = getCookie("username");
+        if (user != "") {
+          alert("Welcome again " + user);
+        } else {
+          user = prompt("Please enter your name:", "");
+          if (user != "" && user != null) {
+            setCookie("username", user, 365);
+          }
+        }
+      }
+
+      /*
+      2. 文档对象模型（DOM）
+        当网页被加载时，浏览器会创建页面的文档对象模型（Document Object Model）。
+        HTML DOM 模型被结构化为对象树
+        始终记住DOM是一个树形结构。操作一个DOM节点实际上就是这么几个操作：
+            - 更新：更新该DOM节点的内容，相当于更新了该DOM节点表示的HTML的内容；
+            - 遍历：遍历该DOM节点下的子节点，以便进行进一步操作；
+            - 添加：在该DOM节点下新增一个子节点，相当于动态增加了一个HTML节点；
+            - 删除：将该节点从HTML中删除，相当于删掉了该DOM节点的内容以及它包含的所有子节点
+
+            2.1 HTML DOM方法
+            HTML DOM 能够通过 JavaScript 进行访问（也可以通过其他编程语言）。
+            在 DOM 中，所有 HTML 元素都被定义为对象。
+            HTML DOM 文档对象是您的网页中所有其他对象的拥有者。
+                - 查找HTML元素
+                    - getElementById(id)  根据Id来查找元素
+                    - getElementsByTagName(name)  根据标签来查找元素
+                    - getElementsByClassName(name)  根据类名来查找元素
+                    - 还有不用get，直接能返回对象的一些方法
+                        document.title
+                        document.scripts
+
+                - 改变 HTML 元素  
+                    - element.innerHTML = new html content  获取替换元素内容
+                    - element.attribute = new value  改变属性值
+                    - element.setAttribute(attribute, value)  改变属性值
+                    - element.style.property = new style  改变元素的样式
+                
+                - 添加删除元素
+                    - document.createElement(element)  创建元素
+                    - document.removeChild(element)  删除元素
+                    - document.replaceChild(element)  替换元素
+                    - document.appendChild(element)  添加元素
+                    - document.write(text)  写入HTML流
+                
+                - 添加事件处理程序
+                    - document.getElementById(id).onclick = function(){code}	向 onclick 事件添加事件处理程序
+      */
+      function removeChildDiv3() {
+        var parentElement = document.getElementById("div_container");
+        var childElement = parentElement.children[2];
+        parentElement.removeChild(childElement);
+      }
+      function addChildDiv3() {
+        var parentElement = document.getElementById("div_container");
+        var newElement = document.createElement("div");
+        newElement.textContent = "div3";
+        parentElement.append(newElement);
+      }
+      /* 
+            2.2 表单验证
+            HTML 表单验证可以通过 JavaScript 完成。
+            如果表单域 (fname) 为空，该函数会提示一条消息，并返回 false，以防止表单被提交：
+
+            自动 HTML 表单验证
+            HTML 表单验证可以由浏览器自动执行：
+            如果表单字段 (fname) 为空，则 required 属性会阻止提交此表单
+            <form action="/action_page.php" method="post">
+            <input type="text" name="fname" required>
+            <input type="submit" value="Submit">
+            </form>
+
+            HTML 约束验证
+            HTML5 引入了一种新的 HTML 验证概念，称为约束验证。
+
+            HTML 约束验证基于：
+
+            约束验证 HTML input 属性，比如上面的required
+            约束验证 CSS 伪选择器，比如:required	选择规定了 "required" 属性的 input 元素。
+            约束验证 DOM 属性和方法
+     
+     */
+      function validForm() {
+        let x = document.forms["myform"]["fname"].value;
+        if (x == "") {
+          alert("Name不能为空");
+          return false;
+        }
+      }
+      /*
+            2.3 动画
+            JavaScript 动画是通过对元素样式进行渐进式变化编程完成的。
+            这种变化通过一个计数器来调用。当计数器间隔很小时，动画看上去就是连贯的。
+            基础代码是：
+    */
+      function myMove() {
+        var elem = document.getElementById("animation");
+        var pos = 0;
+        var id = setInterval(frame, 500);
+        function frame() {
+          if (pos == 350) {
+            clearInterval(id);
+          } else {
+            pos++;
+            elem.style.left = pos + "px";
+            elem.style.top = pos + "px";
+          }
+        }
+      }
+
+      /*
+            2.4 JavaScript HTML DOM 事件
+            对事件作出反应
+            JavaScript 能够在事件发生时执行，比如当用户点击某个 HTML 元素时。
+            为了在用户点击元素时执行代码，请向 HTML 事件属性添加 JavaScript 代码
+                - 常见事件：
+                  - 当用户点击鼠标时
+                  - 当网页加载后 onload 和 onunload 事件
+                  - 当图片加载后
+                  - 当字段改变时 onchange 事件
+                  - 当 HTML 表单被提交时
+                  - 当用户鼠标按键时
+                
+                - 事件分配
+                  - 使用事件属性
+                      <button onclick="displayDate()">试一试</button>
+                  - 对元素分配时间
+                      <script>
+                      document.getElementById("myBtn").onclick = displayDate;
+                      <script>
+                
+                - 鼠标事件
+                  - onmousedown, onmouseup 以及 onclick 事件
+                      首先当鼠标按钮被点击时，onmousedown 事件被触发；
+                      然后当鼠标按钮被释放时，onmouseup 事件被触发；
+                      最后，当鼠标点击完成后，onclick 事件被触发。
+                      
+                  - onmouseover 和 onmouseout 事件
+                      用户将鼠标移至 HTML 元素上或移出时触发某个函数
+
+                  
+                  
+
+    */
+      function displayDate() {
+        var d = new Date();
+        document.getElementById("display_date").innerHTML =
+          d.toLocaleDateString();
+      }
+      /*
+            2.5 DOM 事件监听程序
+              addEventListener() 方法:
+                element.addEventListener(event, function, useCapture);
+                第一个参数是事件类型（click、mousedown等，注意click前面没有on）
+                第二个参数是函数，用函数名即可不用加()
+                第三个参数是布尔值，指定使用事件冒泡还是事件捕获。此参数是可选的，默认false为冒泡事件
+                  在 HTML DOM 中有两种事件传播的方法：冒泡和捕获。
+                  事件传播是一种定义当发生事件时元素次序的方法。假如 <div> 元素内有一个 <p>，然后用户点击了这个 <p> 元素，应该首先处理哪个元素“click”事件？
+                  在冒泡中，最内侧元素的事件会首先被处理，然后是更外侧的：首先处理 <p> 元素的点击事件，然后是 <div> 元素的点击事件。
+                  在捕获中，最外侧元素的事件会首先被处理，然后是更内侧的：首先处理 <div> 元素的点击事件，然后是 <p> 元素的点击事件。
+              
+              事件监听优点：
+                1.可以绑定多个处理程序
+                2.可以解绑removeEventListener()、修改事件阶段
+                3.行为和结构分离，可维护性高
+   */
+  document.getElementById("button_refresh").addEventListener("click", function(){
+    document.getElementById("refresh_text").innerHTML = "文字更新了"
+  })
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    #readfile {
+      width: 100%;
+    }
+    #test-image-preview {
+      width: 100%;
+      height: 200px;
+      background-color: white;
+    }
+  </style>
+
+  <body>
+    <div id="readfile">
+      <div id="test-image-preview"></div>
+      <input type="file" id="test-image-file" />
+      <p id="test-file-info"></p>
+    </div>
+    <script>
+      /* 1.JavaScript操作文件
+       */
+      let preview = document.getElementById("test-image-preview");
+      let fileInput = document.getElementById("test-image-file");
+      let info = document.getElementById("test-file-info");
+      //添加监听程序
+      fileInput.addEventListener("change", function () {
+        preview.style.backgroundImage = "";
+
+        if (!fileInput.value) {
+          info.innerHTML = "没有打开任何文件";
+          return;
+        }
+
+        // 获取file引用
+        let file = fileInput.files[0];
+        info.innerHTML =
+          "文件" +
+          file.name +
+          "<br>" +
+          "大小" +
+          file.size +
+          "<br>" +
+          "修改" +
+          file.lastModified;
+
+        // 检查文件是不是图片
+        if (
+          file.type !== "image/jpeg" &&
+          file.type !== "image/png" &&
+          file.type !== "image/gif"
+        ) {
+          alert("不是图片文件");
+          return;
+        }
+        // 读取文件
+        let reader = new FileReader();
+        reader.onload = function (e) {
+          let data = e.target.result;
+          preview.style.backgroundImage = "url(" + data + ")";
+        };
+        // 以DataURL的形式读取文件:
+        reader.readAsDataURL(file);
+      });
+
+      /* 
+        2.AJAX
+        AJAX不是编程语言，也不是什么规范，它是Asynchronous JavaScript and XML，意思就是用JavaScript执行异步网络请求，
+        作用就是在页面加载后不用通过刷新就能更改页面的内容，比如向服务器请求数据、从服务器获取数据、向服务器发送数据等。
+        AJAX仅仅组合了：
+            浏览器内建的XMLHttpRequest对象（从web服务器请求数据）
+            JavaScript 和 HTML DOM（显示或使用数据）
+        如何工作？
+            网页中发生一个事件（页面加载、按钮点击）
+            由 JavaScript 创建 XMLHttpRequest 对象
+            XMLHttpRequest 对象向 web 服务器发送请求
+            服务器处理该请求
+            服务器将响应发送回网页
+            由 JavaScript 读取响应
+            由 JavaScript 执行正确的动作（比如更新页面）
+
+            2.1 XMLHttpRequest 对象
+            XMLHttpRequest 对象可用于在后台与 Web 服务器交换数据
+                - 创建
+                    const xhttp = new XMLHttpRequest();
+                - 定义回调函数
+                    回调函数是指作为参数传递给其它函数的函数，在必要的时候进行触发
+                    xhttp.onload = function(){
+                    }
+                    在加载就绪时候触发
+                - 发送请求
+                    如需向服务器发送请求，您可以使用 XMLHttpRequest 对象的 open() 和 send() 方法：
+                    xhttp.open("GET", "ajax_info.txt");
+                    xhttp.send();
+                - 跨域访问（Access Across Domains）
+                由于安全考虑的限制，网页和它尝试加载的 XML 文件必须位于同一台服务器上
+                - onload 属性
+                使用 XMLHttpRequest 对象时，您可以定义一个回调函数，以便在请求收到答复时执行
+                请在onload这个属性里面定义该函数
+                - 多个回调函数
+                有多个 AJAX 任务，则应创建一个执行 XMLHttpRequest 对象的函数，并为每个 AJAX 任务创建一个回调函数
+       */
+      loadDoc("url-1", myFunction1);
+
+      loadDoc("url-2", myFunction2);
+
+      function loadDoc(url, cFunction) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+          cFunction(this);
+        };
+        xhttp.open("GET", url);
+        xhttp.send();
+      }
+
+      function myFunction1(xhttp) {
+        // 这里是动作
+      }
+      function myFunction2(xhttp) {
+        // 这里是动作
+      }
+      /*
+                - onreadystatechange 属性
+                readyState 属性保存 XMLHttpRequest 的状态。
+                onreadystatechange 属性定义了一个回调函数，当 readyState 改变时执行该函数。
+                status 属性和 statusText 属性保存 XMLHttpRequest 对象的状态。
+
+            2.3 请求
+            向服务器发送请求通过XMLHttpRequest对象的open和send方法
+                - open方法
+                    open(method, url, async)
+                        method：请求方法GET或POST
+                        url：服务器文件地址，要求同源
+                        async：true表示异步，false表示同步
+                - send和send(string)
+                前者用来发送GET方法后者发送POST方法
+                
+
+      */
+    </script>
+  </body>
+</html>
