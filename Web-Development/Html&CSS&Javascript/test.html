@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Router</title>
+  <style>
+    nav a {
+      margin: 0 10px;
+      cursor: pointer;
+      text-decoration: underline;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" data-link>首页</a>
+    <a href="/about" data-link>关于</a>
+    <a href="/contact" data-link>联系</a>
+  </nav>
+
+  <div id="app"></div>
+
+  <script>
+    // 简单的“路由表”
+    const routes = {
+      "/": "<h1>欢迎来到首页</h1>",
+      "/about": "<h1>关于我们</h1><p>我们是写代码的</p>",
+      "/contact": "<h1>联系我</h1><p>邮箱: test@example.com</p>"
+    };
+
+    // 路由渲染函数
+    function router() {
+      const path = window.location.pathname;
+      const content = routes[path] || "<h1>404 页面不存在</h1>";
+      document.getElementById("app").innerHTML = content;
+    }
+
+    // 拦截链接点击（防止默认跳转）
+    document.addEventListener("click", (e) => {
+      if (e.target.matches("[data-link]")) {
+        e.preventDefault();
+        const href = e.target.getAttribute("href");
+        history.pushState(null, null, href); // 改变 URL，但不刷新
+        router(); // 渲染对应页面
+      }
+    });
+
+    // 监听浏览器前进/后退按钮
+    window.addEventListener("popstate", router);
+
+    // 初始加载
+    router();
+  </script>
+
+</body>
+</html>
